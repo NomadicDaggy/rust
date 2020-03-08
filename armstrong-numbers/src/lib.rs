@@ -4,11 +4,6 @@ pub fn is_armstrong_number(num: u32) -> bool {
         .chars()
         .map(|c| c.to_digit(10).unwrap())
         .collect();
-    
-    let sum = digits
-        .iter()
-        .map(|d| d.pow(digits.len() as u32))
-        .sum();
 
-    num == sum
+    num == digits.iter().map(|d| d.pow(digits.len() as u32)).sum()
 }
