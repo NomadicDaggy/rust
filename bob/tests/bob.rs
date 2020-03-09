@@ -10,7 +10,6 @@ fn test_stating_something() {
 
 
 #[test]
-#[ignore]
 /// ending with whitespace
 fn test_ending_with_whitespace() {
     process_response_case("Okay if like my  spacebar  quite a bit?   ", "Sure.");
@@ -18,7 +17,6 @@ fn test_ending_with_whitespace() {
 
 
 #[test]
-#[ignore]
 /// shouting numbers
 fn test_shouting_numbers() {
     process_response_case("1, 2, 3 GO!", "Whoa, chill out!");
@@ -26,7 +24,6 @@ fn test_shouting_numbers() {
 
 
 #[test]
-#[ignore]
 /// other whitespace
 fn test_other_whitespace() {
     process_response_case("\r\r 	", "Fine. Be that way!");
@@ -34,7 +31,6 @@ fn test_other_whitespace() {
 
 
 #[test]
-#[ignore]
 /// shouting with special characters
 fn test_shouting_with_special_characters() {
     process_response_case("ZOMG THE %^*@#$(*^ ZOMBIES ARE COMING!!11!!1!", "Whoa, chill out!");
@@ -42,7 +38,6 @@ fn test_shouting_with_special_characters() {
 
 
 #[test]
-#[ignore]
 /// talking forcefully
 fn test_talking_forcefully() {
     process_response_case("Hi there!", "Whatever.");
