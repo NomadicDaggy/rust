@@ -1,12 +1,9 @@
 pub fn reply(message: &str) -> &str {
-    let has_text = !message.chars().all(char::is_control)
-        && (message.chars().any(char::is_alphanumeric)
-            || message.chars().any(|c| char::is_ascii_punctuation(&c)));
+    let m = message.trim();
 
-    let is_question = message.trim_end_matches(char::is_whitespace).chars().last() == Some('?');
-
-    let is_shout =
-        (message.to_uppercase() == message) && (message.chars().any(char::is_alphabetic));
+    let has_text = !m.is_empty();
+    let is_question = m.ends_with('?');
+    let is_shout = (m.to_uppercase() == m) && (m.contains(char::is_alphabetic));
 
     match (has_text, is_question, is_shout) {
         (true, true, true) => "Calm down, I know what I'm doing!",
