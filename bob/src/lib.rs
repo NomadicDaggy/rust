@@ -10,25 +10,11 @@ pub fn reply(message: &str) -> &str {
     let is_shout =
         (message.to_uppercase() == message) && (message.chars().any(char::is_alphabetic));
 
-    if has_text {
-        if is_question {
-            if is_shout {
-                return "Calm down, I know what I'm doing!";
-            } else {
-                return "Sure.";
-            }
-        } else {
-            if is_shout {
-                return "Whoa, chill out!";
-            } else {
-                return "Whatever.";
-            }
-        }
-    } else {
-        if is_question {
-            return "Sure.";
-        }
+    match(has_text, is_question, is_shout) {
+        (true, true, true) => "Calm down, I know what I'm doing!",
+        (true, false, true) => "Whoa, chill out!",
+        (true, false, _) => "Whatever.",
+        (_, true, _) => "Sure.",
+        (false, false, _) => "Fine. Be that way!",
     }
-
-    "Fine. Be that way!"
 }
