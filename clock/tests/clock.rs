@@ -16,25 +16,21 @@ fn test_midnight_is_zero_hours() {
 }
 
 #[test]
-#[ignore]
 fn test_hour_rolls_over() {
     assert_eq!(Clock::new(25, 0).to_string(), "01:00");
 }
 
 #[test]
-#[ignore]
 fn test_hour_rolls_over_continuously() {
     assert_eq!(Clock::new(100, 0).to_string(), "04:00");
 }
 
 #[test]
-#[ignore]
 fn test_sixty_minutes_is_next_hour() {
     assert_eq!(Clock::new(1, 60).to_string(), "02:00");
 }
 
 #[test]
-#[ignore]
 fn test_minutes_roll_over() {
     assert_eq!(Clock::new(0, 160).to_string(), "02:40");
 }

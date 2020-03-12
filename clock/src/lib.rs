@@ -1,7 +1,6 @@
 use std::fmt;
 
-// Debug has to be derived because ...
-// PartialEq has to be derived because ...
+// Debug has to be derived because ...s
 #[derive(Debug)]
 pub struct Clock {
     hours: i32,
@@ -10,16 +9,31 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
+        let mut new_minutes = minutes;
+        let mut new_hours = hours;
+
+        if minutes >= 60 {
+            new_minutes = minutes % 60;
+            new_hours += minutes / 60;
+        }
+
         Clock {
-            hours,
-            minutes,
+            hours: new_hours,
+            minutes: new_minutes,
         }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let new_minutes = self.minutes + minutes;
+        let mut new_minutes = self.minutes + minutes;
+        let mut new_hours = self.hours;
+
+        if new_minutes == 60 {
+            new_minutes = 0;
+            new_hours += 1;
+        }
+
         Clock {
-            hours: self.hours,
+            hours: new_hours,
             minutes: new_minutes,
         }
     }
