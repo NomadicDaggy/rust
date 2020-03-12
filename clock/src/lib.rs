@@ -1,15 +1,15 @@
-pub struct Clock;
+pub struct Clock {
+    hours: i32,
+    minutes: i32,
+}
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        unimplemented!(
-            "Construct a new Clock from {} hours and {} minutes",
-            hours,
-            minutes
-        );
+        Clock { hours: hours, minutes: minutes }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        unimplemented!("Add {} minutes to existing Clock time", minutes);
+        let new_minutes = self.minutes + minutes;
+        Clock { hours: self.hours, minutes: new_minutes }
     }
 }
