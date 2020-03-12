@@ -6,13 +6,11 @@ fn test_on_the_hour() {
 }
 
 #[test]
-#[ignore]
 fn test_past_the_hour() {
     assert_eq!(Clock::new(11, 9).to_string(), "11:09");
 }
 
 #[test]
-#[ignore]
 fn test_midnight_is_zero_hours() {
     assert_eq!(Clock::new(24, 0).to_string(), "00:00");
 }
