@@ -1,9 +1,5 @@
 use clock::Clock;
 
-//
-// Clock Creation
-//
-
 #[test]
 fn test_on_the_hour() {
     assert_eq!(Clock::new(8, 0).to_string(), "08:00");
