@@ -1,6 +1,5 @@
 use std::fmt;
 
-// Debug has to be derived because ...s
 #[derive(Debug)]
 pub struct Clock {
     hours: i32,
@@ -9,13 +8,22 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let mut new_minutes = minutes;
-        let mut new_hours = hours;
+        let minute_sum = hours * 60 + minutes;
+        let new_minutes = minute_sum % 60;
+        let new_hours = minute_sum / 60;
 
-        if minutes >= 60 {
+
+        /*if hours < 0 {
+            new_hours = 24 + hours % 24;
+        }
+
+        if minutes < 0 {
+            new_minutes = 60 + minutes % 60;
+            new_hours = (new_hours - (1 + minutes / 60)) % 24;
+        } else if minutes >= 60 {
             new_minutes = minutes % 60;
             new_hours += minutes / 60;
-        }
+        }*/
 
         Clock {
             hours: new_hours,
