@@ -7,42 +7,33 @@ pub struct Clock {
 }
 
 impl Clock {
+    // New Clock is created through add_minutes(), so the logic can live
+    // in only one place.
     pub fn new(hours: i32, minutes: i32) -> Self {
+        // This doesn't have to hold any rollover or negativity logic
+        // bescause add_minutes() does all that.
         let minute_sum = hours * 60 + minutes;
-        let new_minutes = minute_sum % 60;
-        let new_hours = minute_sum / 60;
-
-
-        /*if hours < 0 {
-            new_hours = 24 + hours % 24;
-        }
-
-        if minutes < 0 {
-            new_minutes = 60 + minutes % 60;
-            new_hours = (new_hours - (1 + minutes / 60)) % 24;
-        } else if minutes >= 60 {
-            new_minutes = minutes % 60;
-            new_hours += minutes / 60;
-        }*/
 
         Clock {
-            hours: new_hours,
-            minutes: new_minutes,
+            hours: 0,
+            minutes: 0,
         }
+        .add_minutes(minute_sum)
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let mut new_minutes = self.minutes + minutes;
-        let mut new_hours = self.hours;
+        let mut minute_sum = (self.hours * 60 + self.minutes + minutes) % (24 * 60);
 
-        if new_minutes == 60 {
-            new_minutes = 0;
-            new_hours += 1;
+        // minute_sum can still be negative- the modulus operator doesn't take
+        // away the sign. This could also probably be accomplished more elegantly
+        // within the initial minute_sum assignment. Don't know how though.
+        if minute_sum < 0 {
+            minute_sum += 24 * 60;
         }
 
         Clock {
-            hours: new_hours,
-            minutes: new_minutes,
+            hours: minute_sum / 60,
+            minutes: minute_sum % 60,
         }
     }
 }
