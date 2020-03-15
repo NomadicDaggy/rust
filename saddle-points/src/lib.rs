@@ -1,9 +1,9 @@
 // "saddle point" is greater than or equal to every element in its row
 // and less than or equal to every element in its column.
 pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
-    let mut res = Vec::<(usize, usize)>::new();
+    let mut saddle_points = Vec::<(usize, usize)>::new();
     
-    if input.is_empty() { return res; }
+    if input.is_empty() { return saddle_points; }
 
     // For each row, find its maximum value and check if it is also
     // the values columns minimum.
@@ -16,7 +16,14 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
             .collect();
         
         //println!("{:?}", row_max);
+
+        // Keep only those row maximums which are also column minimums.
+        // Additionally, replace second element with row index.
+        let saddles = row_max
+            .iter()
+            .filter(|(i, x)| is_min_of_col(i, x))
+            .collect();
     }
     
-    res
+    saddle_points
 }
