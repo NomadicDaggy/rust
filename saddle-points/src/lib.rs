@@ -5,11 +5,8 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
         return Vec::<(usize, usize)>::new();
     }
 
-    //let row_count = input.len();
-    //let col_count = input[0].len();
+    let mut res = Vec::<(usize, usize)>::new();
 
-    //let mut min_of_cols = Vec::<u64>::new();
-    let mut max_of_rows = Vec::<Vec<u64>>::new();
     // Find max idx of each row (there can be more than one)
     for (row_idx, row) in input.iter().enumerate() {
         let mut rowmax_val = 0_u64;
@@ -24,11 +21,38 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
                 rowmax_idxs.push(i as u64);
             }
         }
-        //print!("{:?}\n", rowmax_idxs);
-        max_of_rows.push(rowmax_idxs);
-        //print!("{} {:?}", row_idx, row);
-    } // After this, max_of_rows has indices for
-      //each row where its max can be found
-      //println!("{:?}", max_of_rows);
-    vec![(0, 0)]
+        // For each maximum row value, see if minimum coincides
+        for i in rowmax_idxs {
+            // If a cell is smaller than this and not in column position i,
+            // then there is no saddle point in this row.
+            // Holds value of row maximum.
+            let value_to_beat = input[row_idx][i as usize];
+            let mut no_saddle_flag = false;
+            let mut saddle_rows = Vec::<usize>::new();
+            // For each row
+            for (idx, row) in input.iter().enumerate() {
+                println!("{:?} {}", row, idx);
+                // we have the right column
+                for (i2, elem) in row.iter().enumerate() {
+                    if i2 == i as usize {
+                        // new minimum found
+                        if *elem < value_to_beat {
+                            no_saddle_flag = true;
+                        } else {
+                            saddle_rows.push(idx);
+                            //res.push((idx, i as usize));
+                        }
+                        println!("i:{} idx:{} flag:{}", i, idx, no_saddle_flag);
+                    }
+                }
+            }
+
+            if !no_saddle_flag {
+                for j in saddle_rows {
+                    res.push((j as usize, i as usize));
+                }
+            }
+        }
+    }
+    res
 }
