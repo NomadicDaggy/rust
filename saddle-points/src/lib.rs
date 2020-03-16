@@ -26,10 +26,7 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
 
     // Is value x the minimum of row i
     fn is_min_of_col(i: usize, x: u64, input: &[Vec<u64>]) -> bool {
-        for row in input.iter() {
-            if row[i] < x { return false }
-        }
-        true
+        input.iter().any(|vec| x < vec[i])
     }
     
     saddle_points
