@@ -8,18 +8,18 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
     // For each row, find its maximum value and check if it is also
     // the values columns minimum.
     for (row_idx, row) in input.iter().enumerate() {
-        let row_max_val = row.iter().max().unwrap();
-        let row_max: Vec::<(usize, &u64)> = row
+        let row_max = row.iter().max().unwrap();
+        let row_saddles: Vec::<(usize, &u64)> = row
             .iter()
             .enumerate()
-            .filter(|(i, x)| *x == row_max_val && is_min_of_col(*i, **x, input))
+            .filter(|(i, x)| *x == row_max && is_col_min(*i, **x, input))
             .collect();
         
-        println!("{:?}", row_max);
+        println!("{:?}", row_saddles);
     }
 
     // Is value x the minimum of row i
-    fn is_min_of_col(i: usize, x: u64, input: &[Vec<u64>]) -> bool {
+    fn is_col_min(i: usize, x: u64, input: &[Vec<u64>]) -> bool {
         input.iter().any(|vec| x < vec[i])
     }
     
