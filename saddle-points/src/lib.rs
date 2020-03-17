@@ -12,16 +12,10 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
         let row_max: Vec::<(usize, &u64)> = row
             .iter()
             .enumerate()
-            .filter(|(i, x)| *x == row_max_val)
-            .collect();
-
-        // Keep only those row maximums which are also column minimums.
-        let row_saddles: Vec::<&(usize, &u64)> = row_max
-            .iter()
-            .filter(|(i, x)| is_min_of_col(*i, **x, input))
+            .filter(|(i, x)| *x == row_max_val && is_min_of_col(*i, **x, input))
             .collect();
         
-        println!("{:?}", row_saddles);
+        println!("{:?}", row_max);
     }
 
     // Is value x the minimum of row i
