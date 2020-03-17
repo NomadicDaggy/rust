@@ -9,19 +9,26 @@ pub fn find_saddle_points(input: &[Vec<u64>]) -> Vec<(usize, usize)> {
     // the values columns minimum.
     for (row_idx, row) in input.iter().enumerate() {
         let row_max = row.iter().max().unwrap();
-        let row_saddles: Vec::<(usize, &u64)> = row
+        let row_saddles: Vec::<(usize, usize)> = row
             .iter()
             .enumerate()
             .filter(|(i, x)| *x == row_max && is_col_min(*i, **x, input))
+            .map(|(i, x)| format_indices(i, x, input))
             .collect();
         
-        println!("{:?}", row_saddles);
+        for r in row_saddles.iter() { saddle_points.push(*r) }
     }
+    println!("{:?}", saddle_points); 
 
-    // Is value x the minimum of row i
-    fn is_col_min(i: usize, x: u64, input: &[Vec<u64>]) -> bool {
-        input.iter().any(|vec| x < vec[i])
-    }
-    
     saddle_points
+}
+
+// Is value x the minimum of column i
+fn is_col_min(i: usize, x: u64, input: &[Vec<u64>]) -> bool {
+    input.iter().any(|vec| x < vec[i])
+}
+
+// Goes from (col_index, value) to (row_index, col_index)
+fn format_indices(i: usize, x: &u64, input: &[Vec<u64>]) -> (usize, usize) {
+    (i, i)
 }
