@@ -7,8 +7,6 @@ pub struct Clock {
 }
 
 impl Clock {
-    // New Clock is created through add_minutes(), so the logic can live
-    // in only one place.
     pub fn new(hours: i32, minutes: i32) -> Self {
         // This doesn't have to hold any rollover or negativity logic
         // bescause add_minutes() does all that.
@@ -22,18 +20,9 @@ impl Clock {
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        let mut minute_sum = (self.hours * 60 + self.minutes + minutes) % (24 * 60);
-
-        // minute_sum can still be negative- the modulus operator doesn't take
-        // away the sign. This could also probably be accomplished more elegantly
-        // within the initial minute_sum assignment. Don't know how though.
-        if minute_sum < 0 {
-            minute_sum += 24 * 60;
-        }
-
         Clock {
-            hours: minute_sum / 60,
-            minutes: minute_sum % 60,
+            hours: (self.hours + (minutes + self.minutes).div_euclid(60)).rem_euclid(24),
+            minutes: (self.minutes + minutes.rem_euclid(60)).rem_euclid(60),
         }
     }
 }
@@ -42,9 +31,9 @@ impl fmt::Display for Clock {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{}:{}",
-            format!("{:0>2}", self.hours),
-            format!("{:0>2}", self.minutes)
+            "{:0>2}:{:0>2}",
+            self.hours,
+            self.minutes,
         )
     }
 }
