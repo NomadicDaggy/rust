@@ -22,7 +22,7 @@ impl Clock {
     pub fn add_minutes(&self, minutes: i32) -> Self {
         Clock {
             hours: (self.hours + (minutes + self.minutes).div_euclid(60)).rem_euclid(24),
-            minutes: (self.minutes + minutes.rem_euclid(60)).rem_euclid(60),
+            minutes: (self.minutes + minutes).rem_euclid(60),
         }
     }
 }
