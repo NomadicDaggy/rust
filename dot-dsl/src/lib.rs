@@ -10,6 +10,9 @@
 pub mod graph {
     use maplit::hashmap;
     use std::collections::HashMap;
+    
+    use graph_items::edge::Edge;
+    use graph_items::node::Node;
 
     pub struct Graph {
         nodes: Vec<Node>,
@@ -37,20 +40,47 @@ pub mod graph {
         }
     }
 
-    #[derive(Debug, PartialEq)]
-    pub struct Edge {
-        from: String,
-        to: String,
-        attrs: HashMap<String, String>,
-    }
+    pub mod graph_items {
+        pub mod edge {
+            use std::collections::HashMap;
+            use maplit::hashmap;
 
-    #[derive(Debug, PartialEq)]
-    pub struct Node {
-        name: String,
-        attrs: HashMap<String, String>,
-    }
+            #[derive(Debug, PartialEq)]
+            pub struct Edge {
+                from: String,
+                to: String,
+                attrs: HashMap<String, String>,
+            }
+    
+            impl Edge {
+                pub fn new(from: &str, to: &str) -> Self {
+                    Edge {
+                        from: from.to_string(),
+                        to: to.to_string(),
+                        attrs: hashmap![],
+                    }
+                }
+            }
+        }
+        
+        pub mod node {
+            use std::collections::HashMap;
+            use maplit::hashmap;
 
-    //impl Node {
-    //    fn new()
-    //}
+            #[derive(Debug, PartialEq)]
+            pub struct Node {
+                name: String,
+                attrs: HashMap<String, String>,
+            }
+    
+            impl Node {
+                pub fn new(name: &str) -> Self {
+                    Node {
+                        name: name.to_string(),
+                        attrs: hashmap![],
+                    }
+                }
+            }
+        }
+    }
 }
