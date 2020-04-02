@@ -25,15 +25,27 @@ pub mod graph {
                 attrs: hashmap![],
             }
         }
+
+        pub fn with_nodes<'a>(&'a mut self, nodes: Vec<Node>) -> &'a mut Graph {
+            self.nodes.extend(nodes);
+            self
+        }
+
+        pub fn with_edges<'a>(&'a mut self, edges: Vec<Edge>) -> &'a mut Graph {
+            self.edges.extend(edges);
+            self
+        }
     }
 
-    struct Edge {
+    #[derive(Debug, PartialEq)]
+    pub struct Edge {
         from: String,
         to: String,
         attrs: HashMap<String, String>,
     }
 
-    struct Node {
+    #[derive(Debug, PartialEq)]
+    pub struct Node {
         name: String,
         attrs: HashMap<String, String>,
     }
