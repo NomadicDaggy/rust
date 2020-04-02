@@ -6,16 +6,39 @@
 // nodes, edges and attrs have is_empty()
 // attrs is a HashMap
 
+
 pub mod graph {
+    use maplit::hashmap;
+    use std::collections::HashMap;
+
     pub struct Graph {
-        nodes: Node,
-        edges: Edge,
-        attrs: list,
+        nodes: Vec<Node>,
+        edges: Vec<Edge>,
+        attrs: HashMap<String, String>,
     }
 
     impl Graph {
         pub fn new() -> Self {
-            unimplemented!("Construct a new Graph struct.");
+            Graph {
+                nodes: Vec::<Node>::new(),
+                edges: Vec::<Edge>::new(),
+                attrs: hashmap![],
+            }
         }
     }
+
+    struct Edge {
+        from: String,
+        to: String,
+        attrs: HashMap<String, String>,
+    }
+
+    struct Node {
+        name: String,
+        attrs: HashMap<String, String>,
+    }
+
+    //impl Node {
+    //    fn new()
+    //}
 }
