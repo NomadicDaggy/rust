@@ -15,9 +15,9 @@ pub mod graph {
     use graph_items::node::Node;
 
     pub struct Graph {
-        nodes: Vec<Node>,
-        edges: Vec<Edge>,
-        attrs: HashMap<String, String>,
+        pub nodes: Vec<Node>,
+        pub edges: Vec<Edge>,
+        pub attrs: HashMap<String, String>,
     }
 
     impl Graph {
@@ -29,13 +29,25 @@ pub mod graph {
             }
         }
 
-        pub fn with_nodes<'a>(&'a mut self, nodes: Vec<Node>) -> &'a mut Graph {
-            self.nodes.extend(nodes);
+        pub fn with_nodes<'a>(&'a mut self, nodes: &[Node]) -> &'a mut Graph {
+            self.nodes = nodes.to_vec();
             self
         }
 
-        pub fn with_edges<'a>(&'a mut self, edges: Vec<Edge>) -> &'a mut Graph {
-            self.edges.extend(edges);
+        pub fn with_edges<'a>(&'a mut self, edges: &[Edge]) -> &'a mut Graph {
+            self.edges = edges.to_vec();
+            self
+        }
+
+        pub fn get_node(&self, name: &str) -> Option<&Node> {
+            self.nodes.iter().find(|node| node.name == name)
+        }
+
+        pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+            self.attrs = attrs
+                .iter()
+                .map(|(a, b)| (a.to_string(), b.to_string()))
+                .collect();
             self
         }
     }
@@ -45,7 +57,7 @@ pub mod graph {
             use std::collections::HashMap;
             use maplit::hashmap;
 
-            #[derive(Debug, PartialEq)]
+            #[derive(Debug, PartialEq, Clone)]
             pub struct Edge {
                 from: String,
                 to: String,
@@ -60,6 +72,15 @@ pub mod graph {
                         attrs: hashmap![],
                     }
                 }
+
+                // cheated with this
+                pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+                    self.attrs = attrs
+                        .iter()
+                        .map(|(a, b)| (a.to_string(), b.to_string()))
+                        .collect();
+                    self
+                }
             }
         }
         
@@ -67,9 +88,9 @@ pub mod graph {
             use std::collections::HashMap;
             use maplit::hashmap;
 
-            #[derive(Debug, PartialEq)]
+            #[derive(Debug, PartialEq, Clone)]
             pub struct Node {
-                name: String,
+                pub name: String,
                 attrs: HashMap<String, String>,
             }
     
@@ -79,6 +100,18 @@ pub mod graph {
                         name: name.to_string(),
                         attrs: hashmap![],
                     }
+                }
+
+                pub fn get_attr(&self, key: &str) -> Option<&str> {
+                    self.attrs.get(key).map(|s| s.as_str())
+                }
+
+                pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
+                    self.attrs = attrs
+                        .iter()
+                        .map(|(a, b)| (a.to_string(), b.to_string()))
+                        .collect();
+                    self
                 }
             }
         }
