@@ -1,19 +1,10 @@
-// nodes are strings
-// edges are pairs of strings (tuples)
-// attrs are also pairs of strings but are specified as list of tuples
-// both edges and nodes have attrs
-// graph has with_nodes(), with_edges() and with_attrs()
-// nodes, edges and attrs have is_empty()
-// attrs is a HashMap
-
-
 pub mod graph {
-    use maplit::hashmap;
     use std::collections::HashMap;
-    
+
     use graph_items::edge::Edge;
     use graph_items::node::Node;
 
+    #[derive(Default)]
     pub struct Graph {
         pub nodes: Vec<Node>,
         pub edges: Vec<Edge>,
@@ -22,40 +13,38 @@ pub mod graph {
 
     impl Graph {
         pub fn new() -> Self {
-            Graph {
-                nodes: Vec::<Node>::new(),
-                edges: Vec::<Edge>::new(),
-                attrs: hashmap![],
-            }
+            Graph::default()
         }
 
-        pub fn with_nodes<'a>(&'a mut self, nodes: &[Node]) -> &'a mut Graph {
+        pub fn with_nodes(mut self, nodes: &[Node]) -> Self {
             self.nodes = nodes.to_vec();
             self
         }
 
-        pub fn with_edges<'a>(&'a mut self, edges: &[Edge]) -> &'a mut Graph {
+        pub fn with_edges(mut self, edges: &[Edge]) -> Self {
             self.edges = edges.to_vec();
             self
         }
 
         pub fn get_node(&self, name: &str) -> Option<&Node> {
+            // Find is like filter, but it stops at the first value that
+            // returns true, rather than getting them all.
             self.nodes.iter().find(|node| node.name == name)
         }
 
         pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
             self.attrs = attrs
                 .iter()
-                .map(|(a, b)| (a.to_string(), b.to_string()))
-                .collect();
+                .map(|(a, b)| ((*a).to_string(), (*b).to_string()))
+                .collect(); // you can collect into a HashMap
             self
         }
     }
 
     pub mod graph_items {
         pub mod edge {
-            use std::collections::HashMap;
             use maplit::hashmap;
+            use std::collections::HashMap;
 
             #[derive(Debug, PartialEq, Clone)]
             pub struct Edge {
@@ -63,7 +52,7 @@ pub mod graph {
                 to: String,
                 attrs: HashMap<String, String>,
             }
-    
+
             impl Edge {
                 pub fn new(from: &str, to: &str) -> Self {
                     Edge {
@@ -77,23 +66,23 @@ pub mod graph {
                 pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
                     self.attrs = attrs
                         .iter()
-                        .map(|(a, b)| (a.to_string(), b.to_string()))
+                        .map(|(a, b)| ((*a).to_string(), (*b).to_string()))
                         .collect();
                     self
                 }
             }
         }
-        
+
         pub mod node {
-            use std::collections::HashMap;
             use maplit::hashmap;
+            use std::collections::HashMap;
 
             #[derive(Debug, PartialEq, Clone)]
             pub struct Node {
                 pub name: String,
                 attrs: HashMap<String, String>,
             }
-    
+
             impl Node {
                 pub fn new(name: &str) -> Self {
                     Node {
@@ -109,7 +98,7 @@ pub mod graph {
                 pub fn with_attrs(mut self, attrs: &[(&str, &str)]) -> Self {
                     self.attrs = attrs
                         .iter()
-                        .map(|(a, b)| (a.to_string(), b.to_string()))
+                        .map(|(a, b)| ((*a).to_string(), (*b).to_string()))
                         .collect();
                     self
                 }
