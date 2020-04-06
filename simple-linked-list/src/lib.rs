@@ -30,7 +30,14 @@ impl<T> SimpleLinkedList<T> {
     }
 
     pub fn push(&mut self, _element: T) {
-        unimplemented!()
+        let n = Node {
+            data: _element,
+            next: self.head,
+        };
+
+        *self = SimpleLinkedList {
+            head: Some(Box::new(n)),
+        };
     }
 
     pub fn pop(&mut self) -> Option<T> {
