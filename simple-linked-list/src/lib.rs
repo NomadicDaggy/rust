@@ -54,9 +54,11 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
 
         let head_node = head_ref.unwrap();
 
-        head_node.next.as_ref()?;
-
         let head_data = head_node.data.clone();
+
+        if head_node.next.as_ref().is_none() {
+            return Some(head_data);
+        };
 
         *self = SimpleLinkedList {
             head: Some(head_object.unwrap().next.unwrap()),
