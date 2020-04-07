@@ -1,6 +1,7 @@
 use std::iter::FromIterator;
 use std::mem;
 
+
 pub struct SimpleLinkedList<T> {
     head: Option<Box<Node<T>>>,
 }
@@ -10,7 +11,7 @@ struct Node<T> {
     next: Option<Box<Node<T>>>,
 }
 
-impl<T> SimpleLinkedList<T> {
+impl<T: std::clone::Clone> SimpleLinkedList<T> {
     pub fn new() -> Self {
         SimpleLinkedList { head: None }
     }
@@ -45,7 +46,16 @@ impl<T> SimpleLinkedList<T> {
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        unimplemented!()
+        let mut head = None;
+        mem::swap(&mut self.head, &mut head);
+
+        let c = head.as_ref().unwrap().data.clone();
+
+        *self = SimpleLinkedList {
+            head: Some(head.unwrap().next.unwrap()),
+        };
+
+        Some(c)
     }
 
     pub fn peek(&self) -> Option<&T> {
