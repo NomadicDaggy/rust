@@ -19,9 +19,8 @@ impl<T> SimpleLinkedList<T> {
 
     pub fn len(&self) -> usize {
         if !self.head.is_some() { return 0 }
-
         let mut this = self.head.as_ref().unwrap().next.as_ref();
-        let mut len: usize = 0;
+        let mut len: usize = 1;
         loop {
             if !this.is_some() { return len }
             len += 1;
