@@ -1,4 +1,5 @@
 use std::iter::FromIterator;
+use std::mem;
 
 pub struct SimpleLinkedList<T> {
     head: Option<Box<Node<T>>>,
@@ -30,9 +31,12 @@ impl<T> SimpleLinkedList<T> {
     }
 
     pub fn push(&mut self, _element: T) {
+        let mut head = None;
+        mem::swap(&mut self.head, &mut head);
+        
         let n = Node {
             data: _element,
-            next: self.head,
+            next: head,
         };
 
         *self = SimpleLinkedList {
