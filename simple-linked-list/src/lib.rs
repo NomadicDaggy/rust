@@ -1,7 +1,6 @@
 use std::iter::FromIterator;
 use std::mem;
 
-
 pub struct SimpleLinkedList<T> {
     head: Option<Box<Node<T>>>,
 }
@@ -46,29 +45,24 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        let mut head = None;
-        mem::swap(&mut self.head, &mut head);
-        //if head.as_ref().unwrap().is_none() { return None }
+        let mut head_object = None;
+        mem::swap(&mut self.head, &mut head_object);
 
-        let c = head.as_ref();
+        let head_ref = head_object.as_ref();
 
-        if c.is_none() {
-            return None
-        }
+        head_ref?; // returns None if option is not Some
 
-        let r = c.unwrap();
-        
-        if r.next.is_none() {
-            return None
-        }
+        let head_node = head_ref.unwrap();
 
-        let s = r.data.clone();
+        head_node.next.as_ref()?;
+
+        let head_data = head_node.data.clone();
 
         *self = SimpleLinkedList {
-            head: Some(head.unwrap().next.unwrap()),
+            head: Some(head_object.unwrap().next.unwrap()),
         };
 
-        Some(s)
+        Some(head_data)
     }
 
     pub fn peek(&self) -> Option<&T> {
