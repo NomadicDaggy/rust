@@ -48,14 +48,27 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
     pub fn pop(&mut self) -> Option<T> {
         let mut head = None;
         mem::swap(&mut self.head, &mut head);
+        //if head.as_ref().unwrap().is_none() { return None }
 
-        let c = head.as_ref().unwrap().data.clone();
+        let c = head.as_ref();
+
+        if c.is_none() {
+            return None
+        }
+
+        let r = c.unwrap();
+        
+        if r.next.is_none() {
+            return None
+        }
+
+        let s = r.data.clone();
 
         *self = SimpleLinkedList {
             head: Some(head.unwrap().next.unwrap()),
         };
 
-        Some(c)
+        Some(s)
     }
 
     pub fn peek(&self) -> Option<&T> {
