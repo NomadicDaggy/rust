@@ -80,9 +80,15 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
     }
 }
 
-impl<T> FromIterator<T> for SimpleLinkedList<T> {
+impl<T: std::clone::Clone> FromIterator<T> for SimpleLinkedList<T> {
     fn from_iter<I: IntoIterator<Item = T>>(_iter: I) -> Self {
-        unimplemented!()
+        let mut ll = SimpleLinkedList::new();
+
+        for i in _iter {
+            ll.push(i);
+        }
+
+        ll
     }
 }
 
