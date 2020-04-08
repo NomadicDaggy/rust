@@ -68,11 +68,10 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
     }
 
     pub fn peek(&self) -> Option<&T> {
-        let head_ref = self.head.as_ref();
-
-        match head_ref.is_none() {
-            true => None,
-            false => Some(&head_ref.unwrap().data)
+        if let Some(node) = self.head.as_ref() {
+            Some(&node.data)
+        } else {
+            None
         }
     }
 
