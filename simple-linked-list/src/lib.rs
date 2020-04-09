@@ -115,8 +115,16 @@ impl<T: std::clone::Clone + std::marker::Copy> FromIterator<T> for SimpleLinkedL
 // of IntoIterator is that implementing that interface is fairly complicated, and
 // demands more of the student than we expect at this point in the track.
 
-impl<T> Into<Vec<T>> for SimpleLinkedList<T> {
+impl<T: std::clone::Clone + std::marker::Copy> Into<Vec<T>> for SimpleLinkedList<T> {
     fn into(self) -> Vec<T> {
-        unimplemented!()
+        let mut vector = Vec::<T>::new();
+        let mut copy = self.rev();
+
+        while copy.head.is_some() {
+            let last_elem_data = copy.pop().unwrap();
+            vector.push(last_elem_data);
+        }
+
+        vector
     }
 }
