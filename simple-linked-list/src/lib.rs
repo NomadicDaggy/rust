@@ -1,16 +1,18 @@
 use std::iter::FromIterator;
 use std::mem;
 
+#[derive(Clone)]
 pub struct SimpleLinkedList<T> {
     head: Option<Box<Node<T>>>,
 }
 
+#[derive(Clone)]
 struct Node<T> {
     data: T,
     next: Option<Box<Node<T>>>,
 }
 
-impl<T: std::clone::Clone> SimpleLinkedList<T> {
+impl<T: Clone + Copy> SimpleLinkedList<T> {
     pub fn new() -> Self {
         SimpleLinkedList { head: None }
     }
@@ -54,7 +56,7 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
 
         let head_node = head_ref.unwrap();
 
-        let head_data = head_node.data.clone();
+        let head_data = head_node.data;
 
         if head_node.next.as_ref().is_none() {
             return Some(head_data);
@@ -75,12 +77,22 @@ impl<T: std::clone::Clone> SimpleLinkedList<T> {
         }
     }
 
+    // I am aware this is pretty dirty and would not be optimal for
+    // large lists.
     pub fn rev(self) -> SimpleLinkedList<T> {
-        unimplemented!()
+        let mut ll = SimpleLinkedList::new();
+        let mut copy = self;
+
+        while copy.head.is_some() {
+            let last_elem_data = copy.pop().unwrap();
+            ll.push(last_elem_data);
+        }
+
+        ll
     }
 }
 
-impl<T: std::clone::Clone> FromIterator<T> for SimpleLinkedList<T> {
+impl<T: std::clone::Clone + std::marker::Copy> FromIterator<T> for SimpleLinkedList<T> {
     fn from_iter<I: IntoIterator<Item = T>>(_iter: I) -> Self {
         let mut ll = SimpleLinkedList::new();
 
