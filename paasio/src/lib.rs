@@ -1,5 +1,6 @@
 use std::io::{Read, Result, Write};
 
+// Apparently this is a tuple struct
 pub struct ReadStats<R>(::std::marker::PhantomData<R>);
 
 impl<R: Read> ReadStats<R> {
@@ -7,7 +8,7 @@ impl<R: Read> ReadStats<R> {
     // can't be passed through format!(). For actual implementation you will likely
     // wish to remove the leading underscore so the variable is not ignored.
     pub fn new(_wrapped: R) -> ReadStats<R> {
-        unimplemented!()
+        ReadStats(std::marker::PhantomData)
     }
 
     pub fn get_ref(&self) -> &R {
@@ -36,7 +37,7 @@ impl<W: Write> WriteStats<W> {
     // can't be passed through format!(). For actual implementation you will likely
     // wish to remove the leading underscore so the variable is not ignored.
     pub fn new(_wrapped: W) -> WriteStats<W> {
-        unimplemented!()
+        WriteStats(std::marker::PhantomData)
     }
 
     pub fn get_ref(&self) -> &W {
