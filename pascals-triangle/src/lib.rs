@@ -10,8 +10,20 @@ impl PascalsTriangle {
     }
 
     pub fn rows(&self) -> Vec<Vec<u32>> {
-        let mut out = Vec::new();
+        let mut rows = Vec::new();
+        if self.row_count == 0 { return rows }
 
-        out
+        for line in 1..self.row_count+1 {
+            let mut row = Vec::new();
+
+            for i in 1..line+1 {
+                println!("{} {}", line,i);
+                if i == 1 || i == line { row.push(1); }
+            }
+            
+            rows.push(row);
+        }
+
+        rows
     }
 }
