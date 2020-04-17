@@ -170,7 +170,6 @@ test_write!(write_string (
 ));
 
 test_read!(
-    #[ignore]
     read_byte_literal(
         &[1_u8, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144][..],
         |d: &[u8]| d.len()
