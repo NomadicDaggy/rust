@@ -22,13 +22,11 @@ fn count_returns_result() {
 }
 
 #[test]
-#[ignore]
 fn test_count_empty() {
     assert_eq!(dna::count('A', ""), Ok(0));
 }
 
 #[test]
-#[ignore]
 fn count_invalid_nucleotide() {
     assert_eq!(dna::count('X', "A"), Err('X'));
 }
